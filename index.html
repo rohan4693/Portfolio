@@ -1,113 +1,1242 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rohan Kumar Singh | Portfolio</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      background: #fdfdfd54;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rohan Kr. Singh — Data Scientist & Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   ROOT & RESET
+═══════════════════════════════════════ */
+:root {
+  --black: #050507;
+  --off-black: #0c0c10;
+  --surface: #111116;
+  --surface2: #1a1a22;
+  --wire: #1e1e28;
+  --lime: #c8f135;
+  --lime-dim: #8aaa22;
+  --white: #f0f0ec;
+  --cream: #e8e4d8;
+  --muted: #555560;
+  --mid: #888890;
+  --red: #ff3b3b;
+  --amber: #ffaa00;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-serif: 'Instrument Serif', serif;
+}
 
-    header {
-      background: #000000;
-      color: rgb(255, 238, 0);
-      padding: 20px;
-      text-align: center;
-    }
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-    nav {
-      background-color: rgba(0, 0, 0, 0.68);
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      padding: 20px;
-    }
+html { scroll-behavior: smooth; }
 
-    nav a {
-      color: azure;
-      text-decoration: none;
-    }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+  cursor: none;
+}
 
-    section {
-      padding: 40px;
-      max-width: 800px;
-      margin: auto;
-      padding: 100px;
-    }
+/* ═══════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════ */
+.cursor {
+  position: fixed;
+  width: 10px; height: 10px;
+  background: var(--lime);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.1s ease;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid var(--lime);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.5;
+  transform: translate(-50%, -50%);
+  transition: all 0.15s ease;
+}
+.cursor-ring.hover { width: 60px; height: 60px; opacity: 0.3; }
 
-    .pic{
-      height: 100px;
-      width: 100px;
-    }
+/* ═══════════════════════════════════════
+   SCANLINE OVERLAY
+═══════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 9000;
+}
 
-    .skills span {
-      display: inline-block;
-      background: #00000037;
-      padding: 5px 10px;
-      margin: 5px;
-      border-radius: 5px;
-    }
+/* NOISE TEXTURE */
+body::after {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  width: 200%; height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 8999;
+  opacity: 0.4;
+}
 
-    footer {
-      background: #000000;
-      color: rgb(255, 255, 255);
-      text-align: center;
-      padding: 15px;
-    }
-  </style>
+/* ═══════════════════════════════════════
+   NAV
+═══════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--wire);
+  background: rgba(5,5,7,0.85);
+  backdrop-filter: blur(12px);
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 2px;
+  color: var(--lime);
+  text-decoration: none;
+}
+
+.nav-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.status-dot {
+  width: 7px; height: 7px;
+  background: var(--lime);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1px;
+  background: var(--lime);
+  transition: width 0.3s;
+}
+.nav-links a:hover { color: var(--lime); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 40px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background grid lines */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--wire) 1px, transparent 1px),
+    linear-gradient(90deg, var(--wire) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.4;
+}
+
+/* Radial glow */
+.hero-glow {
+  position: absolute;
+  top: 30%; left: 60%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(200,241,53,0.06) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hero-counter {
+  position: absolute;
+  top: 100px; right: 40px;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-align: right;
+  line-height: 2;
+}
+
+.hero-tag {
+  font-size: 11px;
+  color: var(--lime);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: slideUp 0.8s 0.2s ease forwards;
+}
+
+.hero-name {
+  font-family: var(--font-display);
+  font-size: clamp(80px, 14vw, 200px);
+  line-height: 0.88;
+  letter-spacing: -2px;
+  color: var(--white);
+  opacity: 0;
+  animation: slideUp 0.8s 0.4s ease forwards;
+}
+
+.hero-name .accent { color: var(--lime); }
+
+.hero-name-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(50px, 9vw, 130px);
+  color: var(--cream);
+  display: block;
+}
+
+.hero-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 40px;
+  opacity: 0;
+  animation: slideUp 0.8s 0.8s ease forwards;
+}
+
+.hero-desc {
+  max-width: 380px;
+  font-size: 12px;
+  color: var(--mid);
+  line-height: 1.8;
+  letter-spacing: 0.5px;
+}
+
+.hero-desc strong { color: var(--white); }
+
+.hero-cta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 0;
+  transition: all 0.25s;
+  cursor: none;
+}
+
+.btn-primary {
+  background: var(--lime);
+  color: var(--black);
+  font-weight: 700;
+  border: 2px solid var(--lime);
+}
+.btn-primary:hover {
+  background: transparent;
+  color: var(--lime);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid var(--wire);
+}
+.btn-ghost:hover {
+  border-color: var(--lime);
+  color: var(--lime);
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px; left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: bounce 2s infinite;
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--lime), transparent);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ═══════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════ */
+#about {
+  padding: 120px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 10px;
+  color: var(--lime);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::before {
+  content: '';
+  width: 24px; height: 1px;
+  background: var(--lime);
+}
+
+.about-headline {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 1;
+  letter-spacing: 1px;
+  color: var(--white);
+  margin-bottom: 28px;
+}
+
+.about-headline em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--cream);
+}
+
+.about-text {
+  font-size: 13px;
+  color: var(--mid);
+  line-height: 2;
+  margin-bottom: 20px;
+}
+
+.about-text strong { color: var(--white); }
+
+.about-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--wire);
+  border: 1px solid var(--wire);
+  margin-top: 40px;
+}
+
+.stat-box {
+  background: var(--surface);
+  padding: 24px;
+  transition: background 0.2s;
+}
+.stat-box:hover { background: var(--surface2); }
+
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 48px;
+  color: var(--lime);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-lbl {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
+.skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.chip {
+  padding: 6px 14px;
+  border: 1px solid var(--wire);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--mid);
+  text-transform: uppercase;
+  transition: all 0.2s;
+  cursor: default;
+}
+.chip:hover {
+  border-color: var(--lime);
+  color: var(--lime);
+  background: rgba(200,241,53,0.05);
+}
+.chip.highlight {
+  border-color: var(--lime-dim);
+  color: var(--lime);
+  background: rgba(200,241,53,0.08);
+}
+
+/* ═══════════════════════════════════════
+   EXPERIENCE — TERMINAL STYLE
+═══════════════════════════════════════ */
+#experience {
+  padding: 100px 40px;
+  border-top: 1px solid var(--wire);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 60px;
+}
+
+.exp-headline {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, 80px);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.exp-count {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 2px;
+}
+
+.terminal-block {
+  border: 1px solid var(--wire);
+  margin-bottom: 2px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.terminal-block:hover { border-color: var(--lime-dim); }
+
+.terminal-bar {
+  background: var(--surface);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.terminal-bar:hover { background: var(--surface2); }
+
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+  margin-right: 14px;
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot-r { background: #ff5f57; }
+.dot-y { background: #ffbd2e; }
+.dot-g { background: #28ca41; }
+
+.terminal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.terminal-role {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.5px;
+}
+
+.terminal-co {
+  font-size: 11px;
+  color: var(--lime);
+}
+
+.terminal-date {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.terminal-expand {
+  font-size: 11px;
+  color: var(--muted);
+  transition: transform 0.3s;
+}
+
+.terminal-block.open .terminal-expand { transform: rotate(180deg); }
+
+.terminal-body {
+  display: none;
+  padding: 24px;
+  background: var(--off-black);
+  border-top: 1px solid var(--wire);
+}
+.terminal-block.open .terminal-body { display: block; }
+
+.terminal-line {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--mid);
+  line-height: 1.8;
+  margin-bottom: 6px;
+}
+.terminal-line::before {
+  content: '>';
+  color: var(--lime);
+  flex-shrink: 0;
+  font-weight: 700;
+}
+.terminal-line strong { color: var(--white); }
+
+/* ═══════════════════════════════════════
+   PROJECTS
+═══════════════════════════════════════ */
+#projects {
+  padding: 100px 40px;
+  border-top: 1px solid var(--wire);
+}
+
+.projects-header {
+  max-width: 1200px;
+  margin: 0 auto 60px;
+}
+
+.projects-headline {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, 80px);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.projects-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--wire);
+}
+
+@media(max-width: 900px) {
+  .projects-grid { grid-template-columns: 1fr; }
+}
+
+.project-card {
+  background: var(--surface);
+  padding: 36px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+  cursor: none;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(200,241,53,0.04) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.project-card:hover { background: var(--surface2); }
+.project-card:hover::before { opacity: 1; }
+
+.project-num {
+  font-family: var(--font-display);
+  font-size: 56px;
+  color: var(--wire);
+  line-height: 1;
+  margin-bottom: 20px;
+  transition: color 0.3s;
+}
+.project-card:hover .project-num { color: rgba(200,241,53,0.15); }
+
+.project-name {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--white);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.project-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.ptag {
+  font-size: 9px;
+  padding: 3px 8px;
+  border: 1px solid var(--wire);
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.project-link {
+  font-size: 10px;
+  color: var(--lime);
+  text-decoration: none;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: gap 0.2s;
+}
+.project-link:hover { gap: 14px; }
+
+.project-badge {
+  position: absolute;
+  top: 20px; right: 20px;
+  background: var(--lime);
+  color: var(--black);
+  font-size: 8px;
+  font-weight: 700;
+  padding: 4px 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   ACHIEVEMENTS TICKER
+═══════════════════════════════════════ */
+.ticker-wrap {
+  border-top: 1px solid var(--wire);
+  border-bottom: 1px solid var(--wire);
+  overflow: hidden;
+  padding: 14px 0;
+  background: var(--surface);
+}
+
+.ticker {
+  display: flex;
+  animation: ticker 25s linear infinite;
+  white-space: nowrap;
+}
+
+.ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 40px;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.ticker-item span { color: var(--lime); }
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ═══════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════ */
+#contact {
+  padding: 120px 40px;
+  border-top: 1px solid var(--wire);
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+@media(max-width: 768px) {
+  #contact { grid-template-columns: 1fr; gap: 50px; }
+  #about { grid-template-columns: 1fr; gap: 40px; }
+  nav { padding: 16px 20px; }
+  nav .nav-links { display: none; }
+  #hero { padding: 0 20px 60px; }
+  .hero-name { font-size: 60px; }
+  .hero-bottom { flex-direction: column; align-items: flex-start; gap: 24px; }
+  #experience, #projects, .projects-header, .exp-header { padding-left: 20px; padding-right: 20px; }
+}
+
+.contact-big {
+  font-family: var(--font-display);
+  font-size: clamp(50px, 8vw, 110px);
+  line-height: 0.9;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+
+.contact-big .lime { color: var(--lime); }
+
+.contact-sub {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 2;
+  margin-top: 24px;
+  max-width: 400px;
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border: 1px solid var(--wire);
+  background: var(--surface);
+  text-decoration: none;
+  color: var(--white);
+  font-size: 12px;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  cursor: none;
+}
+
+.contact-row:hover {
+  background: var(--lime);
+  color: var(--black);
+  border-color: var(--lime);
+}
+
+.contact-row .arrow { transition: transform 0.2s; }
+.contact-row:hover .arrow { transform: rotate(-45deg); }
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--wire);
+  padding: 24px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════ */
+@keyframes slideUp {
+  from { opacity:0; transform: translateY(40px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Typing cursor */
+.type-cursor::after {
+  content: '█';
+  color: var(--lime);
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+</style>
 </head>
-
 <body>
 
-  <header>
-    <h1>Rohan Kumar Singh</h1>
-    <div>
-      <p>Aspiring Data Scientist | Software Developer</p>
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">RKS</a>
+  <div class="nav-status">
+    <div class="status-dot"></div>
+    Available for Work
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-counter">
+    <div>B.Tech CSE</div>
+    <div>Data Science</div>
+    <div>SSTC Bhilai '26</div>
+    <div style="color:var(--lime);margin-top:8px" id="heroTime">00:00:00</div>
+  </div>
+
+  <div class="hero-tag">// Full-Stack Data Engineer & Developer</div>
+
+  <div class="hero-name">
+    ROHAN<span class="accent">.</span>
+    <span class="hero-name-serif">Kumar Singh</span>
+  </div>
+
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      <strong>Building data-driven systems</strong> that live at the intersection of
+      analytics & engineering. Intern @ Mu Sigma · Infosys.
+      Top 10 HackIndia 2025.
+      Based in Jharkhand, India.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Work →</a>
+      <a href="#contact" class="btn btn-ghost">Get In Touch</a>
     </div>
-  </header>
+  </div>
 
-  <nav>
-    <a href="./index.html">Home</a>
-    <a href="./about.html">About</a>
-    <a href="./projects.html">Projects</a>
-    <a href="#skills">Skills</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
 
-  <section id="pic" class="pic">
-    <img src="IMG_1766.JPG" alt="" style="max-width:300%; height:auto; border-radius: 50%;">
-  </section>
+<!-- ACHIEVEMENTS TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ticker-item"><span>★</span> Top 10 HackIndia 2025</div>
+    <div class="ticker-item"><span>✦</span> Mu Sigma Data Analyst Intern</div>
+    <div class="ticker-item"><span>★</span> Infosys Software Intern</div>
+    <div class="ticker-item"><span>✦</span> Google Cloud Gen AI 2024</div>
+    <div class="ticker-item"><span>★</span> 1700+ LinkedIn Followers</div>
+    <div class="ticker-item"><span>✦</span> Unstop Student Executive</div>
+    <div class="ticker-item"><span>★</span> Google DevFest IIT Bhilai</div>
+    <div class="ticker-item"><span>✦</span> Nasscom STEM Certified</div>
+    <!-- duplicate for seamless loop -->
+    <div class="ticker-item"><span>★</span> Top 10 HackIndia 2025</div>
+    <div class="ticker-item"><span>✦</span> Mu Sigma Data Analyst Intern</div>
+    <div class="ticker-item"><span>★</span> Infosys Software Intern</div>
+    <div class="ticker-item"><span>✦</span> Google Cloud Gen AI 2024</div>
+    <div class="ticker-item"><span>★</span> 1700+ LinkedIn Followers</div>
+    <div class="ticker-item"><span>✦</span> Unstop Student Executive</div>
+    <div class="ticker-item"><span>★</span> Google DevFest IIT Bhilai</div>
+    <div class="ticker-item"><span>✦</span> Nasscom STEM Certified</div>
+  </div>
+</div>
 
-  <section id="skills" class="skills">
-    <h2>Skills</h2>
-    <span>Python</span>
-    <span>Data Visualization</span>
-    <span>Flask</span>
-    <span>SQL</span>
-    <span>Git/GitHub</span>
-  </section>
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <div class="section-label">About</div>
+    <h2 class="about-headline">I Turn Data<br>Into <em>Decisions.</em></h2>
+    <p class="about-text">
+      Final-year B.Tech CSE (Data Science) student passionate about building
+      systems that <strong>extract meaning from chaos</strong>. I've shipped real products —
+      from deployed web apps to analytics pipelines used in professional environments.
+    </p>
+    <p class="about-text">
+      My approach: <strong>understand the problem first</strong>, write the code second.
+      Whether it's an EDA pipeline, a REST API, or a hackathon project —
+      I bring engineering discipline and data intuition together.
+    </p>
+    <div class="skill-chips">
+      <span class="chip highlight">Python</span>
+      <span class="chip highlight">SQL</span>
+      <span class="chip highlight">Flask</span>
+      <span class="chip highlight">Pandas</span>
+      <span class="chip highlight">NumPy</span>
+      <span class="chip">Seaborn</span>
+      <span class="chip">Matplotlib</span>
+      <span class="chip">REST APIs</span>
+      <span class="chip">Git</span>
+      <span class="chip">SQLite</span>
+      <span class="chip">Render</span>
+      <span class="chip">EDA</span>
+      <span class="chip">OOP</span>
+      <span class="chip">DSA</span>
+    </div>
+  </div>
+  <div class="reveal" style="transition-delay:0.2s">
+    <div class="about-stats">
+      <div class="stat-box">
+        <div class="stat-num">2+</div>
+        <div class="stat-lbl">Industry<br>Internships</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">T10</div>
+        <div class="stat-lbl">HackIndia<br>2025 Finish</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">1.7K</div>
+        <div class="stat-lbl">LinkedIn<br>Followers</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">'26</div>
+        <div class="stat-lbl">Graduating<br>SSTC Bhilai</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:rohan.sstc@gmail.com">rohan.sstc@gmail.com</a></p>
-    <p>LinkedIn: <a href="">linkedin.com/in/rohan</a></p>
-    <p>GitHub: <a href="https://github.com/rohan4693">github.com/rohan</a></p>
-  </section>
+<!-- EXPERIENCE -->
+<section id="experience" style="padding:100px 40px;border-top:1px solid var(--wire)">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="exp-header reveal">
+      <div>
+        <div class="section-label">Experience</div>
+        <h2 class="exp-headline">WHERE I'VE<br>WORKED</h2>
+      </div>
+      <div class="exp-count">03 ROLES</div>
+    </div>
 
-  <footer>
-    <p>&copy; 2025 Rohan Kumar Singh</p>
-  </footer>
+    <div class="reveal" style="transition-delay:0.1s">
+      <div class="terminal-block open" id="exp1">
+        <div class="terminal-bar" onclick="toggleExp('exp1')">
+          <div class="terminal-dots">
+            <div class="dot dot-r"></div>
+            <div class="dot dot-y"></div>
+            <div class="dot dot-g"></div>
+          </div>
+          <div class="terminal-title-row">
+            <span class="terminal-role">Data Analyst Intern</span>
+            <span class="terminal-co">@ Mu Sigma Inc.</span>
+          </div>
+          <span class="terminal-date">Jun – Jul 2025 · Bengaluru</span>
+          <span class="terminal-expand">▼</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line">Performed end-to-end EDA on real business datasets using <strong>Python (Pandas, NumPy)</strong> and SQL.</div>
+          <div class="terminal-line">Built <strong>data visualizations</strong> (Matplotlib, Seaborn) surfacing patterns that informed product decisions.</div>
+          <div class="terminal-line">Improved data quality and usability through <strong>systematic preprocessing pipelines</strong>.</div>
+          <div class="terminal-line">Worked in a <strong>professional analytics environment</strong> on business-critical datasets in Bengaluru.</div>
+        </div>
+      </div>
+    </div>
 
+    <div class="reveal" style="transition-delay:0.2s">
+      <div class="terminal-block" id="exp2">
+        <div class="terminal-bar" onclick="toggleExp('exp2')">
+          <div class="terminal-dots">
+            <div class="dot dot-r"></div>
+            <div class="dot dot-y"></div>
+            <div class="dot dot-g"></div>
+          </div>
+          <div class="terminal-title-row">
+            <span class="terminal-role">Software Intern</span>
+            <span class="terminal-co">@ Infosys Springboard</span>
+          </div>
+          <span class="terminal-date">Nov – Dec 2024 · Remote</span>
+          <span class="terminal-expand">▼</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line">Built <strong>Flask-based REST API</strong> projects following MVC architecture and industry best practices.</div>
+          <div class="terminal-line">Applied <strong>Git version control</strong> and GitHub workflows throughout the project lifecycle.</div>
+          <div class="terminal-line">Completed certifications in <strong>Python, DBMS, and OOP</strong> with hands-on project assessments.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:0.3s">
+      <div class="terminal-block" id="exp3">
+        <div class="terminal-bar" onclick="toggleExp('exp3')">
+          <div class="terminal-dots">
+            <div class="dot dot-r"></div>
+            <div class="dot dot-y"></div>
+            <div class="dot dot-g"></div>
+          </div>
+          <div class="terminal-title-row">
+            <span class="terminal-role">Student Executive</span>
+            <span class="terminal-co">@ Unstop</span>
+          </div>
+          <span class="terminal-date">Nov 2024 – Feb 2025 · Remote</span>
+          <span class="terminal-expand">▼</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line">Selected by <strong>Unstop</strong> to represent SSTC Bhilai as official campus ambassador.</div>
+          <div class="terminal-line">Promoted <strong>10+ competitions</strong> and hackathons to 500+ student connections.</div>
+          <div class="terminal-line">Drove <strong>student engagement</strong> and participation in national-level tech competitions.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-header reveal">
+    <div class="section-label">Projects</div>
+    <h2 class="projects-headline">THINGS I'VE<br>BUILT</h2>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-badge">Live</div>
+      <div class="project-num">01</div>
+      <div class="project-name">Weather & AQI<br>Monitoring App</div>
+      <p class="project-desc">Full-stack Flask web application integrating real-time Weather and Air Quality APIs. Features carbon footprint tracking, SQLite database, deployed live on Render.</p>
+      <div class="project-tags">
+        <span class="ptag">Python</span>
+        <span class="ptag">Flask</span>
+        <span class="ptag">SQLite</span>
+        <span class="ptag">REST API</span>
+        <span class="ptag">Render</span>
+      </div>
+      <a href="https://github.com/rohan4693" target="_blank" class="project-link">View on GitHub →</a>
+    </div>
+
+    <div class="project-card reveal" style="transition-delay:0.15s">
+      <div class="project-badge" style="background:var(--amber);color:var(--black)">Top 10</div>
+      <div class="project-num">02</div>
+      <div class="project-name">HackIndia 2025<br>Web3 Project</div>
+      <p class="project-desc">Competitive hackathon project with Team Tensor. Built a Web3-based solution that secured a Top 10 finish out of 100+ competing teams at HackIndia 2025.</p>
+      <div class="project-tags">
+        <span class="ptag">Web3</span>
+        <span class="ptag">Hackathon</span>
+        <span class="ptag">Team Project</span>
+        <span class="ptag">Blockchain</span>
+      </div>
+      <a href="https://www.linkedin.com/in/rohan-singh-408549214/" target="_blank" class="project-link">View on LinkedIn →</a>
+    </div>
+
+    <div class="project-card reveal" style="transition-delay:0.3s">
+      <div class="project-num">03</div>
+      <div class="project-name">Data Analytics<br>& EDA Work</div>
+      <p class="project-desc">Real business dataset analysis from Mu Sigma internship. End-to-end EDA pipelines using Python, Pandas, NumPy and SQL to uncover actionable patterns.</p>
+      <div class="project-tags">
+        <span class="ptag">Python</span>
+        <span class="ptag">Pandas</span>
+        <span class="ptag">SQL</span>
+        <span class="ptag">Seaborn</span>
+        <span class="ptag">EDA</span>
+      </div>
+      <a href="https://github.com/rohan4693" target="_blank" class="project-link">View GitHub →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <div class="section-label">Contact</div>
+    <h2 class="contact-big">LET'S<br>WORK<br><span class="lime">TOGETHER.</span></h2>
+    <p class="contact-sub">
+      Open to Data Analyst, Associate Developer, and Business Analyst roles.
+      Full-time. Pan-India. Available from July 2026.
+    </p>
+  </div>
+  <div class="contact-links reveal" style="transition-delay:0.2s">
+    <a href="mailto:rohan.sstc1@gmail.com" class="contact-row">
+      <span>rohan.sstc1@gmail.com</span>
+      <span class="arrow">↗</span>
+    </a>
+    <a href="https://linkedin.com/in/rohan-singh-408549214" target="_blank" class="contact-row">
+      <span>LinkedIn</span>
+      <span class="arrow">↗</span>
+    </a>
+    <a href="https://github.com/rohan4693" target="_blank" class="contact-row">
+      <span>GitHub — rohan4693</span>
+      <span class="arrow">↗</span>
+    </a>
+    <a href="tel:+918789690395" class="contact-row">
+      <span>+91 8789690395</span>
+      <span class="arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Rohan Kumar Singh</span>
+  <span>Built with HTML · CSS · JS</span>
+  <span>Jamshedpur, Jharkhand, India</span>
+</footer>
+
+<script>
+// ── CURSOR ──────────────────────────────────────────
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top  = my + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button, .project-card, .terminal-bar, .stat-box, .chip').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+});
+
+// ── HERO CLOCK ──────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const el = document.getElementById('heroTime');
+  if(el) el.textContent = `${h}:${m}:${s}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ── SCROLL REVEAL ────────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── TERMINAL EXPAND ──────────────────────────────────
+function toggleExp(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+// ── TYPING EFFECT on HERO ────────────────────────────
+const subtitles = [
+  'Data Analyst',
+  'Backend Developer',
+  'Problem Solver',
+  'Python Engineer',
+  'ML Enthusiast',
+];
+let si = 0, ci = 0, deleting = false;
+const tag = document.querySelector('.hero-tag');
+
+function typeWriter() {
+  const current = '// ' + subtitles[si];
+  if(!deleting) {
+    tag.textContent = current.substring(0, ci + 1);
+    ci++;
+    if(ci === current.length) {
+      deleting = true;
+      setTimeout(typeWriter, 2000);
+      return;
+    }
+  } else {
+    tag.textContent = current.substring(0, ci - 1);
+    ci--;
+    if(ci === 0) {
+      deleting = false;
+      si = (si + 1) % subtitles.length;
+    }
+  }
+  setTimeout(typeWriter, deleting ? 40 : 70);
+}
+setTimeout(typeWriter, 1500);
+
+// ── PARALLAX GRID ────────────────────────────────────
+document.addEventListener('mousemove', e => {
+  const grid = document.querySelector('.hero-grid');
+  const glow = document.querySelector('.hero-glow');
+  if(!grid) return;
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  grid.style.transform = `translate(${x}px, ${y}px)`;
+  glow.style.transform = `translate(calc(-50% + ${x*2}px), calc(-50% + ${y*2}px))`;
+});
+</script>
 </body>
-
 </html>
